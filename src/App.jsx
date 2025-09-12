@@ -1,34 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
+import { useNavigate } from "react-router-dom";
+import useDebounce from "./hooks/useDebounce";
 
 export default function WeatherApp() {
-  const [city, setCity] = useState("");
+  const navigate=useNavigate()
+  const [city, setCity] = useState("himatnagar");
   const [weather, setWeather] = useState(null);
-
-  const handleSearch = async (e) => {    
-    e.preventDefault();
-    if (!city) return;
-
-    // Example API: OpenWeatherMap (replace with your own API key)
-    const apiKey = "ea4beb82642bab3fe7111bd72cdfc22a";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
+   let CityVal = useDebounce(city, 100);
+   
+  const apiKey = "ea4beb82642bab3fe7111bd72cdfc22a";
+useEffect(() => {
+  if (!CityVal) return;
+  const fetchWeather = async () => {
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data.cod === 200) {
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${CityVal}&appid=${apiKey}&units=metric`
+      );
+      const data = await res.json();
+      if (data.cod !== 200) {
+        setWeather(null);
+      } else {
         setWeather(data);
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error("Error fetching weather:", err);
+      setWeather(null);
     }
   };
+  fetchWeather();
+}, [CityVal]);
 
+   
   return (
     <section className="container">
       {/* Search Input */}
       <div className="weather-header">
-        <form className="weather-search" onSubmit={handleSearch}>
+        <div className="weather-search">
           <i className="fa-solid fa-magnifying-glass"></i>
           <input
             type="text"
@@ -37,14 +45,15 @@ export default function WeatherApp() {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
-        </form>
+        </div>
+        <button onClick={()=>navigate("/faqs")}>FAQs</button>
       </div>
 
       {/* Main Weather Data */}
-      {weather== null ? (<h2>Search City</h2>
+      {weather== null ? (<h2>No City Found</h2>
       ): (
         <div className="weather-body">
-          <h1 className="weather-city">{weather.name}</h1>
+          <h1 className="weather-city">{weather.name},{weather.sys.country}</h1>
           <p className="weather-date-time">
             {new Date().toLocaleString()}
           </p>
