@@ -20,8 +20,6 @@ export default function TodoApp() {
 //use effect on every todo changes
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-    console.log(editId);
-    
   }, [todos]);
 
   const handleClick = () => {
