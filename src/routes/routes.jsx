@@ -1,4 +1,3 @@
-import React from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import WeatherApp from '../App'
 import FAQ from '../faqs'
@@ -11,9 +10,5 @@ const routes = createBrowserRouter([
      {path:"/faqs",
      element: <FAQ />,
     },
-       {path:"/todo",
-     element: <TodoApp />,
-    },
-
 ])
 export default routes
