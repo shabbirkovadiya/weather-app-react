@@ -147,6 +147,7 @@ input::placeholder {
 
   .weather-header {
     flex-direction: column;
+    gap: 10px;
   }
 
   .weather-units {
@@ -157,5 +158,12 @@ input::placeholder {
 @media (max-width: 400px) {
   .weather-info {
     grid-template-columns: none;
+  }
+  .weather-city{
+    font-size: 35px;
+  }
+  .container{
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 }

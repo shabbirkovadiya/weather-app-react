@@ -33,7 +33,7 @@ export default function FAQ() {
     setOpenIndex(openIndex === index ? null : index);
 
   return (
-    <section className="container">
+    <section className="container faq-container">
       <h2 style={{ textAlign: "center", marginBottom: "2rem" }}>FAQs</h2>
       <div className="faq-list">
         {faqs.map((faq, index) => (
@@ -57,7 +57,7 @@ export default function FAQ() {
           </div>
         ))}
       </div>
-      <div className="container"><button onClick={()=>navigate("/")}>Back To Home</button></div>
+      <div className="faq-container2"><button onClick={()=>navigate("/")} className="d-block">Back To Home</button></div>
       
     </section>
   );
